@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Autores{% endblock %}
+
+{% block body %}
+    <h1>Edit Autores</h1>
+
+    {{ include('autores/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_autores_index') }}">back to list</a>
+
+    {{ include('autores/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Autores{% endblock %}
+
+{% block body %}
+    <h1>Create new Autores</h1>
+
+    {{ include('autores/_form.html.twig') }}
+
+    <a href="{{ path('app_autores_index') }}">back to list</a>
+{% endblock %}

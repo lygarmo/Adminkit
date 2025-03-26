@@ -1,0 +1,23 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+# Ruta para el Dashboard principal
+app_dashboard:
+    path: /
+    controller: App\Controller\DashboardController::index
+
+# Rutas para las entidades Libro, Autor y Editor
+libro_index:
+    path: /libros
+    controller: App\Controller\LibroController::index
+
+autor_index:
+    path: /autores
+    controller: App\Controller\AutorController::index
+
+editor_index:
+    path: /editores
+    controller: App\Controller\EditorialController::index
