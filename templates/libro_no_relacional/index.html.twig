@@ -25,8 +25,8 @@
                 <td>{{ libro_no_relacional.autor }}</td>
                 <td>{{ libro_no_relacional.aPublicacion }}</td>
                 <td>
-                    <a href="{{ path('app_libro_no_relacional_show', {'id': libro_no_relacional.id}) }}">Ver</a>
                     <a href="{{ path('app_libro_no_relacional_edit', {'id': libro_no_relacional.id}) }}">Editar</a>
+                    {{ include('libro_no_relacional/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

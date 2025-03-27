@@ -22,6 +22,14 @@ final class LibroController extends AbstractController
         ]);
     }
 
+    #[Route('/datetable-index', name: 'app_datetable_datetableIndex', methods: ['GET'])]
+    public function datetableIndex(LibroRepository $libroRepository): Response
+    {
+        return $this->render('libro/datetable.html.twig', [
+            'libros' => $libroRepository->findAll(),
+        ]);
+    }
+ 
     #[Route('/new', name: 'app_libro_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
