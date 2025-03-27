@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LibroNoRelacional index{% endblock %}
+
+{% block body %}
+    <h1>LibroNoRelacional index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Editorial</th>
+                <th>Autor</th>
+                <th>A_publicacion</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for libro_no_relacional in libro_no_relacionals %}
+            <tr>
+                <td>{{ libro_no_relacional.id }}</td>
+                <td>{{ libro_no_relacional.titulo }}</td>
+                <td>{{ libro_no_relacional.editorial }}</td>
+                <td>{{ libro_no_relacional.autor }}</td>
+                <td>{{ libro_no_relacional.aPublicacion }}</td>
+                <td>
+                    <a href="{{ path('app_libro_no_relacional_show', {'id': libro_no_relacional.id}) }}">Ver</a>
+                    <a href="{{ path('app_libro_no_relacional_edit', {'id': libro_no_relacional.id}) }}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_libro_no_relacional_new') }}">Añadir libro</a>
+{% endblock %}

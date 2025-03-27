@@ -3,11 +3,11 @@
 {% block title %}Edit Libro{% endblock %}
 
 {% block body %}
-    <h1>Edit Libro</h1>
+    <h1>Editar Libro</h1>
 
     {{ include('libro/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_libro_index') }}">back to list</a>
+    <a href="{{ path('app_libro_index') }}">Volver</a>
 
     {{ include('libro/_delete_form.html.twig') }}
 {% endblock %}

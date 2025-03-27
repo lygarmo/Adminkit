@@ -21,17 +21,18 @@
                 <td>{{ libro.titulo }}</td>
                 <td>{{ libro.aPublicacion }}</td>
                 <td>
-                    <a href="{{ path('app_libro_show', {'id': libro.id}) }}">show</a>
-                    <a href="{{ path('app_libro_edit', {'id': libro.id}) }}">edit</a>
+                    <a href="{{ path('app_libro_show', {'id': libro.id}) }}">Ver</a>
+                    <a href="{{ path('app_libro_edit', {'id': libro.id}) }}">Editar</a>
+                    {{ include('libro/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">No existen registros</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_libro_new') }}">Create new</a>
+    <a href="{{ path('app_libro_new') }}">Añadir libro</a>
 {% endblock %}

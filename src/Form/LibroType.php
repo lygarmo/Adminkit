@@ -17,14 +17,15 @@ class LibroType extends AbstractType
         $builder
             ->add('titulo')
             ->add('a_publicacion')
-            ->add('autor', EntityType::class, [
-                'class' => Autores::class,
-                'choice_label' => 'id',
-            ])
             ->add('editorial', EntityType::class, [
                 'class' => Editorial::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
             ])
+            ->add('autor', EntityType::class, [
+                'class' => Autores::class,
+                'choice_label' => 'nombre', //aqui pongo el campo que quiero mostrar
+            ])
+            
         ;
     }
 

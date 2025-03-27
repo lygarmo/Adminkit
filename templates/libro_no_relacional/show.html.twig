@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LibroNoRelacional{% endblock %}
+
+{% block body %}
+    <h1>LibroNoRelacional</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ libro_no_relacional.id }}</td>
+            </tr>
+            <tr>
+                <th>Titulo</th>
+                <td>{{ libro_no_relacional.titulo }}</td>
+            </tr>
+            <tr>
+                <th>Editorial</th>
+                <td>{{ libro_no_relacional.editorial }}</td>
+            </tr>
+            <tr>
+                <th>Autor</th>
+                <td>{{ libro_no_relacional.autor }}</td>
+            </tr>
+            <tr>
+                <th>A_publicacion</th>
+                <td>{{ libro_no_relacional.aPublicacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_libro_no_relacional_index') }}">back to list</a>
+
+    <a href="{{ path('app_libro_no_relacional_edit', {'id': libro_no_relacional.id}) }}">edit</a>
+
+    {{ include('libro_no_relacional/_delete_form.html.twig') }}
+{% endblock %}

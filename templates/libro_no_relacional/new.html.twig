@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New LibroNoRelacional{% endblock %}
+
+{% block body %}
+    <h1>Create new LibroNoRelacional</h1>
+
+    {{ include('libro_no_relacional/_form.html.twig') }}
+
+    <a href="{{ path('app_libro_no_relacional_index') }}">back to list</a>
+{% endblock %}

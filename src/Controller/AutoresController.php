@@ -43,10 +43,10 @@ final class AutoresController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_autores_show', methods: ['GET'])]
-    public function show(Autores $autore): Response
+    public function show(Autores $autor): Response
     {
         return $this->render('autores/show.html.twig', [
-            'autore' => $autore,
+            'autor' => $autor,
         ]);
     }
 
