@@ -50,6 +50,26 @@ final class LibroController extends AbstractController
         ]);
     }
 
+    #[Route('/datetable-new', name: 'app_datetable_datetableNew', methods: ['GET', 'POST'])]
+    public function datetableNew(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $libro = new Libro();
+        $form = $this->createForm(LibroType::class, $libro);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($libro);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_datetable_datetableIndex', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('libro/datetablenew.html.twig', [
+            'libro' => $libro,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_libro_show', methods: ['GET'])]
     public function show(Libro $libro): Response
     {
@@ -76,6 +96,24 @@ final class LibroController extends AbstractController
         ]);
     }
 
+    #[Route('/datetable/{id}/edit', name: 'app_datetable_edit', methods: ['GET', 'POST'])]
+    public function datetableEdit(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(LibroType::class, $libro);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_datetable_datetableIndex', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('libro/datetableedit.html.twig', [
+            'libro' => $libro,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_libro_delete', methods: ['POST'])]
     public function delete(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
     {
@@ -85,5 +123,16 @@ final class LibroController extends AbstractController
         }
 
         return $this->redirectToRoute('app_libro_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/datetable/{id}', name: 'app_datetable_delete', methods: ['POST'])]
+    public function datetableDelete(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$libro->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($libro);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_datetable_datetableIndex', [], Response::HTTP_SEE_OTHER);
     }
 }

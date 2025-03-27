@@ -30,8 +30,8 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo</th>
-                <th>A_publicacion</th>
-                <th>actions</th>
+                <th>Año publicacion</th>
+                <th>Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -41,10 +41,14 @@
                 <td>{{ libro.titulo }}</td>
                 <td>{{ libro.aPublicacion }}</td>
                 <td>
-                    <a href="{{ path('app_libro_delete', {'id':libro.id}) }}"> 
-                        <i class="fas fa-times" style="color: red;">Eliminar</i> <!-- Cruz roja -->
-                    </a><br>
-                    <a href="{{ path('app_libro_edit', {'id': libro.id}) }}">
+                    <!-- Formulario de eliminación -->
+                    <form method="post" action="{{ path('app_datetable_delete', {'id': libro.id}) }}" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este libro?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ libro.id) }}">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times" style="color: white;">Eliminar</i> <!-- Cruz roja -->
+                        </button>
+                    </form><br>
+                    <a href="{{ path('app_datetable_edit', {'id': libro.id}) }}">
                         <i class="fas fa-edit" style="color: grey;">Editar</i>
                     </a>
                 </td>

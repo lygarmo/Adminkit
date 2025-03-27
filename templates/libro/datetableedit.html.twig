@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Libro{% endblock %}
+
+{% block body %}
+    <h1>Editar Libro</h1>
+
+    {{ include('libro/_form.html.twig', {'button_label': 'Actualizar'}) }}
+
+    <a href="{{ path('app_datetable_datetableIndex') }}">Volver</a>
+
+{% endblock %}
