@@ -29,6 +29,14 @@ final class LibroController extends AbstractController
             'libros' => $libroRepository->findAll(),
         ]);
     }
+
+    #[Route('/popup-index', name: 'app_popup_index', methods: ['GET'])]
+    public function popupIndex(LibroRepository $libroRepository): Response
+    {
+        return $this->render('libro/popup.html.twig', [
+            'libros' => $libroRepository->findAll(),
+        ]);
+    }
  
     #[Route('/new', name: 'app_libro_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -65,6 +73,26 @@ final class LibroController extends AbstractController
         }
 
         return $this->render('libro/datetablenew.html.twig', [
+            'libro' => $libro,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/popup-new', name: 'app_popup_new', methods: ['GET', 'POST'])]
+    public function popupNew(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $libro = new Libro();
+        $form = $this->createForm(LibroType::class, $libro);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($libro);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_popup_ndex', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('libro/popupnew.html.twig', [
             'libro' => $libro,
             'form' => $form,
         ]);
@@ -114,6 +142,24 @@ final class LibroController extends AbstractController
         ]);
     }
 
+    #[Route('/popup/{id}/edit', name: 'app_popup_edit', methods: ['GET', 'POST'])]
+    public function popupEdit(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(LibroType::class, $libro);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_popup_ndex', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('libro/popupedit.html.twig', [
+            'libro' => $libro,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_libro_delete', methods: ['POST'])]
     public function delete(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
     {
@@ -134,5 +180,16 @@ final class LibroController extends AbstractController
         }
 
         return $this->redirectToRoute('app_datetable_datetableIndex', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/popup/{id}', name: 'app_popup_delete', methods: ['POST'])]
+    public function popupDelete(Request $request, Libro $libro, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$libro->getId(), $request->getPayload()->getString('_token'))) {
+            $entityManager->remove($libro);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_popup_index', [], Response::HTTP_SEE_OTHER);
     }
 }

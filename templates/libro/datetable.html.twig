@@ -30,7 +30,9 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo</th>
-                <th>Año publicacion</th>
+                <th>Año publicacion
+                <th>Autor</th>
+                <th>Editorial</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -40,6 +42,8 @@
                 <td>{{ libro.id }}</td>
                 <td>{{ libro.titulo }}</td>
                 <td>{{ libro.aPublicacion }}</td>
+                <td>{{ libro.autor.nombre }}</td>
+                <td>{{ libro.editorial.nombre }}</td>
                 <td>
                     <!-- Formulario de eliminación -->
                     <form method="post" action="{{ path('app_datetable_delete', {'id': libro.id}) }}" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este libro?');">

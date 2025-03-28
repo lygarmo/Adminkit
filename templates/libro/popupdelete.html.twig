@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_popup_delete', {'id': libro.id}) }}" onsubmit="return confirm('¿Estas seguro de borrar este registro?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ libro.id) }}">
+    <button class="btn">Delete</button>
+</form>
