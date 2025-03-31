@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Libro;
+use App\Entity\Autores;
+use App\Entity\Editorial;
 use App\Form\LibroType;
 use App\Repository\LibroRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -56,6 +58,32 @@ final class LibroController extends AbstractController
             'libro' => $libro,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/libro/ajax-create', name: 'app_libro_ajax_create', methods: ['POST'])]
+    public function createFromAjax(Request $request, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        
+        $libro = new Libro();
+        $libro->setTitulo($data['titulo']);
+        $libro->setAPublicacion($data['aPublicacion']);
+        
+        // Obtener autor y editorial
+        $autor = $entityManager->getRepository(Autor::class)->find($data['autor']);
+        $editorial = $entityManager->getRepository(Editorial::class)->find($data['editorial']);
+        
+        if (!$autor || !$editorial) {
+            return new JsonResponse(['success' => false, 'message' => 'Autor o editorial no encontrados'], 400);
+        }
+        
+        $libro->setAutor($autor);
+        $libro->setEditorial($editorial);
+        
+        $entityManager->persist($libro);
+        $entityManager->flush();
+        
+        return new JsonResponse(['success' => true]);
     }
 
     #[Route('/datetable-new', name: 'app_datetable_datetableNew', methods: ['GET', 'POST'])]
@@ -151,7 +179,7 @@ final class LibroController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_popup_ndex', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_popup_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('libro/popupedit.html.twig', [
@@ -192,4 +220,43 @@ final class LibroController extends AbstractController
 
         return $this->redirectToRoute('app_popup_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/libro/nuevo', name: 'libro_nuevo', methods: ['POST'])]
+    public function nuevo(Request $request, EntityManagerInterface $em): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        $editorial = $em->getRepository(Editorial::class)->find($data['editorial']);
+        $autor = $em->getRepository(Autor::class)->find($data['autor']);
+
+        if (!$editorial || !$autor) {
+            return new JsonResponse(['error' => 'Editorial o Autor no encontrados'], 400);
+        }
+
+        $libro = new Libro();
+        $libro->setTitulo($data['titulo']);
+        $libro->setAnioPublicacion($data['a_publicacion']);
+        $libro->setEditorial($editorial);
+        $libro->setAutor($autor);
+
+        $em->persist($libro);
+        $em->flush();
+
+        return new JsonResponse(['message' => 'Libro insertado con éxito'], 200);
+    }
+
+    #[Route('/libro/datos', name: 'libro_datos', methods: ['GET'])]
+    public function obtenerDatos(EntityManagerInterface $em): JsonResponse
+    {
+        $editoriales = $em->getRepository(Editorial::class)->findAll();
+        $autores = $em->getRepository(Autor::class)->findAll();
+
+        $editorialesArray = array_map(fn($e) => ['id' => $e->getId(), 'nombre' => $e->getNombre()], $editoriales);
+        $autoresArray = array_map(fn($a) => ['id' => $a->getId(), 'nombre' => $a->getNombre()], $autores);
+
+        return new JsonResponse(['editoriales' => $editorialesArray, 'autores' => $autoresArray]);
+    }
+
+
 }
