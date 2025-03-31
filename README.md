@@ -1,6 +1,6 @@
-📌 Proyecto Symfony
+# 📌 Proyecto Symfony
 
-# 🚀 Requisitos previos
+## 🚀 Requisitos previos
 Antes de comenzar, asegúrate de tener instalados los siguientes programas:
 
 PHP (versión 8.1 o superior)
@@ -9,7 +9,7 @@ Composer (Administrador de dependencias de PHP)
 
 Symfony CLI (Opcional, pero recomendado)
 
-# 📥 Instalación
+## 📥 Instalación
 1️⃣ Clonar el repositorio
 git clone https://github.com/lygarmo/Adminkit
 
@@ -27,5 +27,5 @@ php bin/console doctrine:migrations:migrate
 5️⃣ Ejecutar el servidor de desarrollo
 symfony server:start
 
-## 📜 Otros comandos útiles
+### 📜 Otros comandos útiles
 🔹 Limpiar caché: php bin/console cache:clear
