@@ -17,8 +17,8 @@ final class LibroNoRelacionalController extends AbstractController
     #[Route(name: 'app_libro_no_relacional_index', methods: ['GET'])]
     public function index(LibroNoRelacionalRepository $libroNoRelacionalRepository): Response
     {
-        return $this->render('libro_no_relacional/index.html.twig', [
-            'libro_no_relacionals' => $libroNoRelacionalRepository->findAll(),
+        return $this->render('libro_no_relacional/index.html.twig', [ //solo coge los activos
+            'libro_no_relacionals' => $libroNoRelacionalRepository->findAllActivos(),
         ]);
     }
 
@@ -71,11 +71,12 @@ final class LibroNoRelacionalController extends AbstractController
     #[Route('/{id}', name: 'app_libro_no_relacional_delete', methods: ['POST'])]
     public function delete(Request $request, LibroNoRelacional $libroNoRelacional, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$libroNoRelacional->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($libroNoRelacional);
+        if ($this->isCsrfTokenValid('delete' . $libroNoRelacional->getId(), $request->getPayload()->getString('_token'))) {
+            $libroNoRelacional->setActivo(false);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_libro_no_relacional_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

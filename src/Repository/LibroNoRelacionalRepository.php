@@ -16,6 +16,15 @@ class LibroNoRelacionalRepository extends ServiceEntityRepository
         parent::__construct($registry, LibroNoRelacional::class);
     }
 
+    //obtener solo libros activos
+    public function findAllActivos(): array
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.activo = true')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return LibroNoRelacional[] Returns an array of LibroNoRelacional objects
     //     */

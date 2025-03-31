@@ -25,6 +25,9 @@ class LibroNoRelacional
     #[ORM\Column]
     private ?int $a_publicacion = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $activo = true; // definido como activo (true)
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,17 @@ class LibroNoRelacional
     {
         $this->a_publicacion = $a_publicacion;
 
+        return $this;
+    }
+
+    public function isActivo(): bool
+    {
+        return $this->activo;
+    }
+
+    public function setActivo(bool $activo): self
+    {
+        $this->activo = $activo;
         return $this;
     }
 }
